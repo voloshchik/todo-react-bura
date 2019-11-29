@@ -1,15 +1,27 @@
 import React from "react";
 import ReactDom from "react-dom";
-
-const el = (
-  <div>
-    <h1>My Todo list</h1>
-    <input placeholder="search"/>
-  <ul>
+const Todolist = () => {
+  return (
+    <ul>
       <li>Learn React</li>
       <li>Build Awesome App</li>
-  </ul>
-  </div>
+    </ul>
+  );
+};
+const AppHeader = () => {
+  return <h1>My Todo list</h1>;
+};
+const SearchPanel = () => {
+  return <input placeholder="search" />;
+};
+const App=()=>{
+    return (
+        <div>
+        <AppHeader />
+        <SearchPanel />
+        <Todolist />
+      </div>
+    )
+}
 
-);
-ReactDom.render(el, document.getElementById("root"));
+ReactDom.render(<App/>, document.getElementById("root"));
