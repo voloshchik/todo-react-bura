@@ -5,8 +5,12 @@ const Todolist = () => {
   const items = ["Drink Coffee", "Build Awesome App"];
   return (
     <ul>
-      <li><TodoListitem/></li>
-      <li><TodoListitem/></li>
+      <li>
+        <TodoListitem label="Drink Coffee" />
+      </li>
+      <li>
+        <TodoListitem important label="Build Awesome App" />
+      </li>
     </ul>
   );
 };

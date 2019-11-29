@@ -4,12 +4,10 @@ import Todolist from "./components/todo-list";
 import AppHeader from "./components/app-header";
 import SearchPanel from "./components/serach-panel";
 
-
-
 const App = () => {
   return (
     <div>
-      <span>{(new Date()).toString()}</span>
+      <span>{new Date().toString()}</span>
       <AppHeader />
       <SearchPanel />
       <Todolist />
