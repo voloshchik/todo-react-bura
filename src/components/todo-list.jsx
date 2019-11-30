@@ -3,18 +3,14 @@ import TodoListitem from "./todo-list-item";
 
 const Todolist = ({ todos }) => {
   const elements = todos.map(item => {
+    const { id, ...itemProps } = item;
     return (
-      <li>
-        <TodoListitem {...item} />
+      <li key={item.id}>
+        <TodoListitem {...itemProps} />
       </li>
     );
   });
-  
-  return (
-    <ul>
-      {elements}
-      
-    </ul>
-  );
+
+  return <ul>{elements}</ul>;
 };
 export default Todolist;
