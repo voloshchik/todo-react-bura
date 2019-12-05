@@ -1,35 +1,49 @@
-import React from 'react';
+import React from "react";
 
+import AppHeader from "../app-header";
+import SearchPanel from "../search-panel";
+import TodoList from "../todo-list";
+import ItemStatusFilter from "../item-status-filter/";
 
-import AppHeader from '../app-header';
-import SearchPanel from '../search-panel';
-import TodoList from '../todo-list';
-import ItemStatusFilter from '../item-status-filter/';
+import "./app";
 
-import './app';
+class App extends React.Component {
+  state = {
+    todoData: [
+      { label: "Drink Coffee", important: false, id: 1 },
+      { label: "Make Awesome App", important: true, id: 2 },
+      { label: "Have a lunch", important: false, id: 3 }
+    ]
+  };
+  deletedItem = id => {
+    this.setState(({ todoData }) => {
+      const idx = todoData.findIndex(el => el.id === id);
+      console.log(idx);
+      // const before = todoData.slice(0, idx);
+      // const after = todoData.slice(idx + 1);
+      // const newArray=[...before,...after]
+      // return {
+      //   todoData:newArray
+      // }
+      return {
+        ...todoData,
+        ...todoData.splice(idx,1)
+      }
+    });
+  };
+  render() {
+    return (
+      <div className="todo-app">
+        <AppHeader toDo={1} done={3} />
+        <div className="top-panel d-flex">
+          <SearchPanel />
+          <ItemStatusFilter />
+        </div>
 
-const App = () => {
-
-  const todoData = [
-    { label: 'Drink Coffee', important: false, id: 1 },
-    { label: 'Make Awesome App', important: true, id: 2 },
-    { label: 'Have a lunch', important: false, id: 3 }
-  ];
-
-  return (
-    <div className="todo-app">
-      <AppHeader toDo={1} done={3} />
-      <div className="top-panel d-flex">
-        <SearchPanel />
-        <ItemStatusFilter />
+        <TodoList todos={this.state.todoData} onDeleted={this.deletedItem} />
       </div>
+    );
+  }
+}
 
-      <TodoList 
-      todos={todoData}
-      onDeleted={(id)=>{
-        console.log('del',id)
-      }} />
-    </div>
-  );
-};
-export default App
+export default App;
