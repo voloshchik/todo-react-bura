@@ -28,6 +28,7 @@ class App extends React.Component {
       return {
         ...todoData,
         ...todoData.splice(idx, 1)
+       
       };
     });
   };
@@ -41,8 +42,9 @@ class App extends React.Component {
     this.setState(({ todoData }) => {
       // const newArr = [...todoData, newItem];
       return {
-       
-       todoData:[...todoData, newItem]
+        ...todoData,
+        todoData:[...todoData,newItem]
+        // todoData: [...todoData, newItem]
       };
     });
   };
