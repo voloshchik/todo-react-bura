@@ -15,6 +15,12 @@ class App extends React.Component {
       { label: "Have a lunch", important: false, id: 3 }
     ]
   };
+  onToggleImportant = id => {
+    console.log("Toggle Important",id );
+  };
+  onToggleDone = id => {
+    console.log("Toggle Done", id);
+  };
   deletedItem = id => {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex(el => el.id === id);
@@ -28,12 +34,11 @@ class App extends React.Component {
       return {
         ...todoData,
         ...todoData.splice(idx, 1)
-       
       };
     });
   };
   addItem = text => {
-    console.log("Added", text);
+    // console.log("Added", text);
     const newItem = {
       label: text,
       important: false,
@@ -43,7 +48,7 @@ class App extends React.Component {
       // const newArr = [...todoData, newItem];
       return {
         ...todoData,
-        todoData:[...todoData,newItem]
+        todoData: [...todoData, newItem]
         // todoData: [...todoData, newItem]
       };
     });
@@ -57,7 +62,12 @@ class App extends React.Component {
           <ItemStatusFilter />
         </div>
 
-        <TodoList todos={this.state.todoData} onDeleted={this.deletedItem} />
+        <TodoList
+          onToggleDone={this.onToggleDone}
+          onToggleImportant={this.onToggleImportant}
+          todos={this.state.todoData}
+          onDeleted={this.deletedItem}
+        />
         <ItemAddForm onItemAdd={this.addItem} />
       </div>
     );

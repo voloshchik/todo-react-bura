@@ -3,27 +3,29 @@ import React from "react";
 import "./todo-list-item.css";
 
 class TodoListItem extends React.Component {
-  state = {
-    done: false,
-    important: false
-  };
   onLabelClick = () => {
-    this.setState(({done})=>{
-return {
-  done:!done
-}
+    this.setState(({ done }) => {
+      return {
+        done: !done
+      };
     });
   };
   onMarkImportant = () => {
-    this.setState(({important}) => {
+    this.setState(({ important }) => {
       return {
         important: !important
       };
     });
   };
   render() {
-    const { label,onDeledet} = this.props;
-    const { done, important } = this.state;
+    const {
+      label,
+      onDeledet,
+      onToggleDone,
+      onToggleImportant,
+      done,
+      important
+    } = this.props;
 
     let classNames = "todo-list-item";
     if (done) {
@@ -34,14 +36,14 @@ return {
     }
     return (
       <span className={classNames}>
-        <span className="todo-list-item-label" onClick={this.onLabelClick}>
+        <span className="todo-list-item-label" onClick={onToggleDone}>
           {label}
         </span>
 
         <button
           type="button"
           className="btn btn-outline-success btn-sm float-right"
-          onClick={this.onMarkImportant}
+          onClick={onToggleImportant}
         >
           <i className="fa fa-exclamation" />
         </button>
