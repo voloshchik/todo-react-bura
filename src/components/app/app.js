@@ -10,17 +10,52 @@ class App extends React.Component {
   maxId = 100;
   state = {
     todoData: [
-      { label: "Drink Coffee", important: false, id: 1 },
-      { label: "Make Awesome App", important: true, id: 2 },
-      { label: "Have a lunch", important: false, id: 3 }
+      this.createTodoItem("Drink Coffee"),
+      this.createTodoItem("ake Awesome App"),
+      this.createTodoItem("Have a lunch")
+      // { label: "Drink Coffee", important: false, id: 1 },
+      // { label: "Make Awesome App", important: true, id: 2 },
+      // { label: "Have a lunch", important: false, id: 3 }
     ]
   };
-  onToggleImportant = id => {
-    console.log("Toggle Important",id );
-  };
+  createTodoItem(label) {
+    return {
+      label,
+      important: false,
+      done: false,
+      id: this.maxId++
+    };
+  }
   onToggleDone = id => {
     console.log("Toggle Done", id);
+    this.setState(({ todoData }) => {
+      // const idx = todoData.findIndex(el => el.id === id);
+      // const oldItem = todoData[idx];
+      // const newItem = { ...oldItem, done: !oldItem.done };
+      // const newArray = [
+      //   ...todoData.slice(0, idx),
+      //   newItem,
+      //   ...todoData.slice(idx + 1)
+      // ];
+      // return{
+      //   todoData:newArray
+      // }
+      const idx = todoData.findIndex(el => el.id === id);
+
+      const todoDataCopy = [...todoData];
+      debugger;
+      todoDataCopy[idx] = { ...todoData[idx] };
+      todoDataCopy[idx].done=!todoDataCopy[idx].done
+      debugger
+      return {
+        todoData: todoDataCopy
+      };
+    });
   };
+  onToggleImportant = id => {
+    console.log("Toggle Important", id);
+  };
+
   deletedItem = id => {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex(el => el.id === id);
@@ -31,6 +66,7 @@ class App extends React.Component {
       // return {
       //   todoData:newArray
       // }
+      
       return {
         ...todoData,
         ...todoData.splice(idx, 1)
@@ -39,11 +75,7 @@ class App extends React.Component {
   };
   addItem = text => {
     // console.log("Added", text);
-    const newItem = {
-      label: text,
-      important: false,
-      id: this.maxId++
-    };
+    const newItem = this.createTodoItem(text);
     this.setState(({ todoData }) => {
       // const newArr = [...todoData, newItem];
       return {
