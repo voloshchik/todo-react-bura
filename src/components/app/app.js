@@ -18,6 +18,20 @@ class App extends React.Component {
       // { label: "Have a lunch", important: false, id: 3 }
     ]
   };
+
+  toggleProperty(arr, id, propName) {
+    debugger;
+
+    const idx = arr.findIndex(el => el.id === id);
+
+    const arrCopy = [...arr];
+
+    arrCopy[idx] = { ...arr[idx] };
+    arrCopy[idx][propName] = !arrCopy[idx][propName];
+
+      return ( arrCopy)
+    
+  }
   createTodoItem(label) {
     return {
       label,
@@ -40,20 +54,32 @@ class App extends React.Component {
       // return{
       //   todoData:newArray
       // }
-      const idx = todoData.findIndex(el => el.id === id);
+      // const idx = todoData.findIndex(el => el.id === id);
 
-      const todoDataCopy = [...todoData];
-      debugger;
-      todoDataCopy[idx] = { ...todoData[idx] };
-      todoDataCopy[idx].done=!todoDataCopy[idx].done
-      debugger
+      // const todoDataCopy = [...todoData];
+
+      // todoDataCopy[idx] = { ...todoData[idx] };
+      // todoDataCopy[idx].done = !todoDataCopy[idx].done;
+
       return {
-        todoData: todoDataCopy
+        todoData: this.toggleProperty(todoData, id, "done")
       };
     });
   };
   onToggleImportant = id => {
-    console.log("Toggle Important", id);
+    // console.log("Toggle Important", id);
+    this.setState(({ todoData }) => {
+    //   const idx = todoData.findIndex(el => el.id === id);
+
+    //   const todoDataCopy = [...todoData];
+
+    //   todoDataCopy[idx] = { ...todoData[idx] };
+    //   todoDataCopy[idx].important = !todoDataCopy[idx].important;
+
+      return {
+        todoData: this.toggleProperty(todoData,id,'important')
+      };
+    });
   };
 
   deletedItem = id => {
@@ -66,7 +92,7 @@ class App extends React.Component {
       // return {
       //   todoData:newArray
       // }
-      
+
       return {
         ...todoData,
         ...todoData.splice(idx, 1)
@@ -86,9 +112,13 @@ class App extends React.Component {
     });
   };
   render() {
+    debugger
+    const { todoData } = this.state;
+    const doneCount = todoData.filter(el => el.done).length;
+    const todoCount = todoData.length - doneCount;
     return (
       <div className="todo-app">
-        <AppHeader toDo={1} done={3} />
+        <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel />
           <ItemStatusFilter />
