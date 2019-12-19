@@ -11,18 +11,17 @@ class App extends React.Component {
   state = {
     todoData: [
       this.createTodoItem("Drink Coffee"),
-      this.createTodoItem("ake Awesome App"),
+      this.createTodoItem("Make Awesome App"),
       this.createTodoItem("Have a lunch")
       // { label: "Drink Coffee", important: false, id: 1 },
       // { label: "Make Awesome App", important: true, id: 2 },
       // { label: "Have a lunch", important: false, id: 3 }
     ],
-    term: ""
+    term: "",
+    filter: "active"
   };
 
   toggleProperty(arr, id, propName) {
-    debugger;
-
     const idx = arr.findIndex(el => el.id === id);
 
     const arrCopy = [...arr];
@@ -99,6 +98,18 @@ class App extends React.Component {
       };
     });
   };
+  // addItem = text => {
+  //   // console.log("Added", text);
+  //   const newItem = this.createTodoItem(text);
+  //   this.setState(({ todoData }) => {
+  //     // const newArr = [...todoData, newItem];
+  //     return {
+  //       ...todoData,
+  //       todoData: [...todoData, newItem]
+  //       // todoData: [...todoData, newItem]
+  //     };
+  //   });
+  // };
   addItem = text => {
     // console.log("Added", text);
     const newItem = this.createTodoItem(text);
@@ -107,7 +118,6 @@ class App extends React.Component {
       return {
         ...todoData,
         todoData: [...todoData, newItem]
-        // todoData: [...todoData, newItem]
       };
     });
   };
@@ -119,14 +129,31 @@ class App extends React.Component {
       return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
     });
   }
+  filter(items, filter) {
+    switch (filter) {
+      case "all":
+        return items;
+      case "active":
+        return items.filter(item => !item.done);
+      case "done":
+        return items.filter(item => item.done);
+      default:
+        return items;
+    }
+  }
   onSearchChange = term => {
     this.setState({
       term
     });
   };
+  onFilterChange = filter => {
+    this.setState({
+      filter
+    });
+  };
   render() {
-    const { todoData, term } = this.state;
-    const visibleItem = this.search(todoData, term);
+    const { todoData, term, filter } = this.state;
+    const visibleItem = this.filter(this.search(todoData, term), filter);
     const doneCount = todoData.filter(el => el.done).length;
     const todoCount = todoData.length - doneCount;
     return (
@@ -134,7 +161,10 @@ class App extends React.Component {
         <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel onSearchChange={this.onSearchChange} />
-          <ItemStatusFilter />
+          <ItemStatusFilter
+            filter={filter}
+            onFilterChange={this.onFilterChange}
+          />
         </div>
 
         <TodoList
